@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "book-management-api-58a60",
+  "private_key_id": "ddc378f8388bc66cccdaa8b79bf4b7cd893b0b97",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC3jxGnqnJ2s6vd\nHVKdccZX9Trpa+cUa4juIWWwQrDY9tsp+Hn3goBxEaM7jFsUniq8hm8Oh1hFX8nR\nO3c0t1k1IOG6hpecUKQuozDmPq3EhVYvZWBH4oDctddVC4OlsH9BIFufcAeK18yY\nA6D0/ZdAN+V8DUD3b2dzwIwxA9AcB/R8MrqdUNBZjJTj4j2acsBIudEGzJe8Y51f\n+jJWRoNBaP6Q6QzcKz3IT5sG55EcZlPJa8oEAJnMXDHQGm8wNyhOqsel909q+mPs\nNYfhb29QZ2j1Y/UTtVZUzoL0UFtVjQe4S9ZVekF7F8AdXh+jePZMEBgIy7ePPodb\n6iu6GEytAgMBAAECggEAA8PJ8L6UtsLhoVkyyBWSJAdcwXaGmKB0qwRWrGz5vpbK\n5ktOiRk39C8Ql4M98lLPfUAOnWWA6ySspCohkZxka9a0T9nnLdFo71HxNKUQIFSR\nxiAV/54cLCqzSMRshfn0P4w1L4nMhc2o8xc5S70Qce8+OYiguVJ4yeLRnUcUPiGS\nEKJG+nsgrgXk83v0WiLmWX2E8sHvy+eLxy4V++aHhLMrtZMLiiZ3vufhWPq5sbFm\n1CgbC8nIMsbhKK8xdbqlthtB1sZGDWWFUQqv0miYYQr1iaOdI0qtpuzTkVI5kk78\ni+6kvHYOZ+yt5apWqNcPfXgy1jJchdItCKaMlbV3ywKBgQDlS5Sf/hLbn6QI7FOA\nlg26eVupWotg1rv3RgbnRVAsvZkIFUvhLGHduZMATMMPvmxNpYI6oS1G6MNcUObb\ngebfHdO56vBECz52bu7TNh/vuGD8/GdQSEDkzMo84PDns6iF1TGo09Fotyz/1AQ/\n3Jc2BBV38vh9BA88ZyD7UILj2wKBgQDM79ytkgyAvl6yHMb8GmhLeR4kkqko1Xb0\nFJSDB7kHFZFaXDxuRq/n+DUk9XyGXbx40DiPLx5dWkwwZOI55bcDwRUGTAEDwVO9\nxOK+fbaCnWN5aZxZVH0eqizfjWWxjgrxYX6sQ7TvHYpaQ+j4Fsxbhqpaz+xLfbAx\ngBYOLVO8FwKBgFIgFPaM+NIixozPoETQ+c/NQbBRltQzdRVmxng1EjdEHTiQ8CGR\nVOgmXGliFQdhi8bvvcokCmR4X+iDrXv3dep582iGplGouVGQAAg0PZINtudFu/c8\nOcn5M4JEiuRiK7zrlCLE4x8fZIWouXDqIFqfcdUJeEjGmHJo+Z4pwwe7AoGACezb\n/TQDkwClSW8HXBJTVsRo51CLDMU525xbjPUEywkKXxv0eUrHHi7xM/cHruI/TIKZ\nGqYnjFHhOr7IDhHICVCCmil4Kxxj197/NEaWXkENHkY1IkZrQN7xCWqpsC227fXQ\n0rr8uk/t8W00jT9dalldSsSjJwzRSbRwXQNo+MUCgYAslWu1SMtZwXNX/I3//8Gq\n4AKjsPPsfuR/6wLZMBnpln5bh8AzulG4AzEqTfVFH4NwHu0F/q+qLWDJtAOVJlZZ\nxxOqOQqMngDUL0TTht1R0+Ir6+m02auiZOKBJuppCMvbQ4zhKm+mJB5FTx+8b6Wd\nvaiVnuYavGPDnyeM8Q3slw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "book-management-api-58a60@appspot.gserviceaccount.com",
+  "client_id": "113726637245120321810",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/book-management-api-58a60%40appspot.gserviceaccount.com"
+}
