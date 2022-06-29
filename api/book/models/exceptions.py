@@ -25,7 +25,7 @@ class BookOwnership(ApiResponse):
     error = NOT_OWN_BOOK_ERROR
 
 
-class BookNotUpdated(ApiResponse):
+class NotUpdated(ApiResponse):
     status = Status.FAILED
     error = Error(type="update", code=113, message="")
 
@@ -46,7 +46,7 @@ update_book: dict[int | str, Any] = {
         "description": "Book Ownership",
     },
     status.HTTP_421_MISDIRECTED_REQUEST: {
-        "model": BookNotUpdated,
+        "model": NotUpdated,
         "description": "Book not updated",
     },
     status.HTTP_404_NOT_FOUND: {
@@ -81,4 +81,34 @@ details_book: dict[str | int, Any] = {
         "model": BookNotFound,
         "description": "Book Not Available",
     }
+}
+
+book_to_favorites: dict[str | int, Any] = {
+    status.HTTP_404_NOT_FOUND: {
+        "model": BookNotFound,
+        "description": "Book Not Available",
+    },
+    status.HTTP_421_MISDIRECTED_REQUEST: {
+        "model": NotUpdated,
+        "description": "User not updated",
+    },
+}
+
+
+class NotFavoriteBook(ApiResponse):
+    status = Status.FAILED
+    error = Error(
+        type="not favorites", code=117, message="book_isbn not in favorite list"
+    )
+
+
+delete_favorite_book: dict[int | str, Any] = {
+    status.HTTP_400_BAD_REQUEST: {
+        "model": NotFavoriteBook,
+        "description": "Book already not in favorites books",
+    },
+    status.HTTP_421_MISDIRECTED_REQUEST: {
+        "model": NotUpdated,
+        "description": "User not updated",
+    },
 }

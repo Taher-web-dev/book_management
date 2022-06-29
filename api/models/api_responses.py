@@ -23,6 +23,17 @@ class ExpiredToken(ApiResponse):
     error = EXPIRED_TOKEN
 
 
+class ValidationError(ApiResponse):
+    status = Status.FAILED
+    error = Error(code=422, type="validation", message="")
+
+
+validation_response: dict[int | str, Any] = {
+    status.HTTP_422_UNPROCESSABLE_ENTITY: {
+        "model": ValidationError,
+        "description": "Validation Error",
+    }
+}
 token_response: dict[int | str, Any] = {
     status.HTTP_401_UNAUTHORIZED: {
         "model": AccessToken,
@@ -34,3 +45,5 @@ token_response: dict[int | str, Any] = {
     },
     status.HTTP_410_GONE: {"model": ExpiredToken, "description": "Expired Token"},
 }
+
+token_response.update(validation_response)

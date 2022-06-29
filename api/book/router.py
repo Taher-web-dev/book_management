@@ -1,3 +1,4 @@
+import tempfile
 from fastapi import APIRouter, Depends, status, Path
 from utils.jwt import JWTBearer
 from api.models.responses import ApiResponse, ApiException, Error
@@ -9,7 +10,9 @@ from .models.responses import (
     DeleteBookSuccessfully,
     AllBooksModel,
     BookDetailModel,
+    FavoritesBook,
 )
+from ..user.models.responses import UserModel, userProfile
 from .models.exceptions import (
     create_book,
     NOT_OWN_BOOK_ERROR,
@@ -17,6 +20,8 @@ from .models.exceptions import (
     delete_book,
     Book_Not_Found_Error,
     details_book,
+    book_to_favorites,
+    delete_favorite_book,
 )
 
 router = APIRouter()
@@ -158,3 +163,92 @@ async def book_detail(book_isbn: str = Path(..., example="3")) -> ApiResponse:
         if doc.id == book_isbn:
             return BookDetailModel(data=doc.to_dict())
     raise ApiException(status.HTTP_404_NOT_FOUND, Book_Not_Found_Error)
+
+
+@router.patch(
+    "/add_book/{book_isbn}", response_model=UserModel, responses=book_to_favorites
+)
+async def add_book_to_favorites(
+    book_isbn: str = Path(..., example="2"), credentials=Depends(JWTBearer())
+) -> ApiResponse:
+    books_ref = db.collection("books")
+    docs = books_ref.stream()
+    exist = False
+    for doc in docs:
+        if doc.id == book_isbn:
+            exist = True
+            break
+    if not exist:
+        raise ApiException(status.HTTP_404_NOT_FOUND, Book_Not_Found_Error)
+    users_ref = db.collection("users")
+    docs = users_ref.stream()
+    for doc in docs:
+        temp_user = doc.to_dict()
+        if (temp_user["email"] == credentials["email"]) & (
+            temp_user["password"] == credentials["password"]
+        ):
+            favorites = temp_user["favorites"]
+            favorites.append(book_isbn)
+            doc_ref = db.collection("users").document(doc.id)
+            try:
+                doc_ref.update({"favorites": favorites})
+                user = db.collection("users").document(doc.id).get().to_dict()
+                return UserModel(data=userProfile(**user))
+
+            except Exception as ex:
+                raise ApiException(
+                    status.HTTP_421_MISDIRECTED_REQUEST,
+                    error=Error(type="update", code=113, message=str(ex)),
+                )
+
+
+@router.get("/list_all_favorites_books", response_model=FavoritesBook)
+def list_all_favorites(credentials=Depends(JWTBearer())) -> ApiResponse:
+    favorites = []
+    users_ref = db.collection("users")
+    docs = users_ref.stream()
+    for doc in docs:
+        temp_user = doc.to_dict()
+        if (temp_user["email"] == credentials["email"]) & (
+            temp_user["password"] == credentials["password"]
+        ):
+            favorites = temp_user["favorites"]
+            return FavoritesBook(data=favorites)
+
+
+@router.patch(
+    "/remove_book/{book_isbn}", responses=delete_favorite_book, response_model=UserModel
+)
+async def remove_book_from_favorites(
+    book_isbn: str = Path(..., example="5"), credentials=Depends(JWTBearer())
+) -> ApiResponse:
+    users_ref = db.collection("users")
+    docs = users_ref.stream()
+    for doc in docs:
+        temp_user = doc.to_dict()
+        if (temp_user["email"] == credentials["email"]) & (
+            temp_user["password"] == credentials["password"]
+        ):
+            favorites = temp_user["favorites"]
+            try:
+                favorites.remove(book_isbn)
+            except:
+                raise ApiException(
+                    status.HTTP_400_BAD_REQUEST,
+                    Error(
+                        type="not favorites",
+                        code=117,
+                        message=f"{book_isbn} not in favorites list",
+                    ),
+                )
+            doc_ref = db.collection("users").document(doc.id)
+            try:
+                doc_ref.update({"favorites": favorites})
+                user = db.collection("users").document(doc.id).get().to_dict()
+                return UserModel(data=userProfile(**user))
+
+            except Exception as ex:
+                raise ApiException(
+                    status.HTTP_421_MISDIRECTED_REQUEST,
+                    error=Error(type="update", code=113, message=str(ex)),
+                )

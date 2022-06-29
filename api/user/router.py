@@ -25,9 +25,11 @@ async def register_user(new_user: UserCreateRequest) -> ApiResponse:
     user_exist = False
     for doc in docs:
         temp_user = doc.to_dict()
-        if (temp_user["email"] == new_user.email) & (
+        try:
             verify_password(temp_user["password"], new_user.password)
-        ):
+        except:
+            continue
+        if temp_user["email"] == new_user.email:
             user_exist = True
             break
     if user_exist:
@@ -68,9 +70,11 @@ async def login_user(
     user = None
     for doc in docs:
         temp_user = doc.to_dict()
-        if (temp_user["email"] == email) & (
+        try:
             verify_password(temp_user["password"], password)
-        ):
+        except:
+            continue
+        if temp_user["email"] == email:
             doc_ref = db.collection("users").document(doc.id)
             doc_ref.update({"session": True})
             user = doc.to_dict()

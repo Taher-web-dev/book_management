@@ -1,12 +1,13 @@
 """ FastApi Main module """
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, status
 from api.user.router import router as user
 from api.book.router import router as book
 from starlette.concurrency import iterate_in_threadpool
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-from api.models.responses import ApiException, Status, ApiResponse
-from api.models.api_responses import token_response
+from api.models.responses import ApiException, Status, ApiResponse, Error
+from api.models.api_responses import token_response, validation_response
+from fastapi.exceptions import RequestValidationError
 import re
 
 app = FastAPI(
@@ -46,6 +47,15 @@ async def app_startup():
     app.openapi_schema = openapi_schema
 
 
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(_, exc: RequestValidationError):
+    err = jsonable_encoder({"detail": exc.errors()})["detail"]
+    raise ApiException(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        error=Error(code=422, type="validation", message=err),
+    )
+
+
 @app.middleware("http")
 async def middle(request: Request, call_next):
     """Wrapper function to manage errors"""
@@ -64,5 +74,7 @@ async def middle(request: Request, call_next):
     return response
 
 
-app.include_router(user, prefix="/api/user", tags=["users"])
+app.include_router(
+    user, prefix="/api/user", tags=["users"], responses=validation_response
+)
 app.include_router(book, prefix="/api/book", tags=["books"], responses=token_response)

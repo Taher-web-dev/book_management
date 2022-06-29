@@ -50,3 +50,7 @@ class BookDetailModel(ApiResponse):
             "created_by": "2",
         },
     )
+
+
+class FavoritesBook(ApiResponse):
+    data: list = Field(..., example=[1, 101, 115, 212])
