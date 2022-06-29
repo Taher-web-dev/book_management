@@ -1,4 +1,4 @@
-# CARRENTALS
+# BOOKS MANAGEMENT
 - In this Project, I created a A RESTFUL web app for books management where authenticated users can manage their own books and check other users books and add them to their favorites list.
 
 
